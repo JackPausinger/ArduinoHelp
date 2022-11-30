@@ -1,0 +1,52 @@
+//////////////////////////////////////////////////////////////////////////////////////
+// find length of a string
+int length(const char* s) {
+  int length = 0;
+  while (s[length] != 0) {
+    length++;
+  }
+  return length;
+}
+
+// find index of the smallest ascii character in a string
+int minPos(const char* s, int startPos) {
+  int l = length(s);
+  if (startPos > l) {
+      return -1;
+  }
+  int min_index = 0;
+  for (int i = startPos; i < l; i++) {
+    if (s[i] < s[min_index]) {
+      min_index = i;
+    }
+  }
+  return min_index;
+}
+
+// find first index of a character in a string
+int first(char* s, char c, int startIndex) {
+    for (int i = startIndex; i < length(s); i++) {
+        if (s[i] == c) return i;
+    }
+    return -1;
+}
+
+// get how often a char is in a string
+int occurrences(const char* s, char c, int startIndex) {
+    int occurrences = 0;
+    for (int i = startIndex; i < length(s); i++) {
+        if (s[i] == c) occurrences++;
+    }
+    return occurrences;
+}
+
+// read in Serial string
+if (Serial.available() > 0) {
+  String incoming = Serial.readString();
+  // get rid of newline, enter, ...
+  incoming.trim();
+  // and e.g. get index of smallest ascii char
+  min_pos = minPos(incoming.c_str());
+  Serial.println(min_pos);
+}
+
