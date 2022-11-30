@@ -1,0 +1,162 @@
+#include <Arduino.h>
+#include <Wire.h>
+#include "i2c.h"
+#include "i2c_BMP280.h"
+#include <LiquidCrystal_I2C.h>
+#include <string.h>
+
+BMP280 bmp280;
+
+LiquidCrystal_I2C lcd(0x27,16,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+
+char i =' ';    // Zeichen mit ' '
+char MeinText []= "Mein Text";  // Zeichenkette mit ""^
+char Text_2 []= "Mein Text";
+bool error =false;  // Error Speicher, wird gesestzt und nicht mehr rückgesetzt
+
+void setup()
+{
+    Serial.begin(9600);
+
+    Serial.print("Probe BMP280: ");
+    if (bmp280.initialize()) Serial.println("Sensor found");
+    else
+    {
+        Serial.println("Sensor missing");
+        while (1) {}
+    }
+
+    // onetime-measure:
+    bmp280.setEnabled(0);
+    bmp280.triggerMeasurement();
+    
+    //LCD Display
+      lcd.init();                      // initialize the lcd 
+    // Print a message to the LCD.
+    lcd.backlight();
+
+    
+}
+
+void loop()
+{
+    /*
+    bmp280.awaitMeasurement();
+
+    char i = 0b0100000; //ascii charakter ansprechen
+
+    float temperature;
+    bmp280.getTemperature(temperature);
+
+    float pascal;
+    bmp280.getPressure(pascal);
+
+    static float meters, metersold;
+    bmp280.getAltitude(meters);
+    metersold = (metersold * 10 + meters)/11;
+
+    bmp280.triggerMeasurement();
+
+    /*
+    Serial.print(" HeightPT1: ");
+    Serial.print(metersold);
+    Serial.print(" m; Height: ");
+    Serial.print(meters);
+    Serial.print(" Pressure: ");
+    Serial.print(pascal);
+    Serial.print(" Pa; T: ");
+    //
+    Serial.print(temperature);
+    Serial.println(" C");
+
+    /*
+    lcd.setCursor(0,0);
+    lcd.print("Height: ");
+    lcd.print(meters);   
+    lcd.print(" m");
+
+    lcd.setCursor(0,1);
+    lcd.print("Druck: ");
+    lcd.print(pascal);
+    lcd.print(" Pa");
+    //
+
+    lcd.setCursor(0,0);
+    lcd.print("Temp.: ");
+    lcd.print(temperature);
+    lcd.print(char(223));   // Grad Zeichen
+    lcd.print(" C");
+
+    if (temperature > 28)
+    {
+        lcd.setCursor(0,1);
+        lcd.print("Hitzewarnung!");
+        Serial.println("Hitzewarnung!");
+        error = true;
+    }
+    else {
+        lcd.setCursor(0,1);
+        lcd.print("              ");
+    }
+    delay(100) */
+    lcd.setCursor(0,0);
+    lcd.print(MeinText);
+
+    // Vergleich des ganzen Textes / strings
+    if (!strcmp(MeinText, Text_2))
+    {
+        lcd.setCursor(0,0);
+        lcd.print("gleich");
+    } else {
+        lcd.setCursor(0,0);
+        lcd.print("ungleich");
+    }
+
+    // Vergleich des Pointers der Variable (gibt immer ungleich)
+    if (MeinText == Text_2)
+    {
+        lcd.setCursor(0,0);
+        lcd.print("gleich");
+    } else {
+        lcd.setCursor(0,0);
+        lcd.print("ungleich");
+    }
+    
+    // einzelne Zeichen vergleichen
+    if (MeinText[0] == Text_2[0])
+    {
+        lcd.setCursor(0,0);
+        lcd.print("gleich");
+    } else {
+        lcd.setCursor(0,0);
+        lcd.print("ungleich");
+    }
+    
+    delay (1000);
+}
+
+
+/*
+
+//YWROBOT
+//Compatible with the Arduino IDE 1.0
+//Library version:1.1
+
+
+LiquidCrystal_I2C lcd(0x27,16,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+
+void setup()
+{
+  lcd.init();                      // initialize the lcd 
+  // Print a message to the LCD.
+  lcd.backlight();
+  lcd.setCursor(2,0);
+  lcd.print("Hello, world!");
+  lcd.setCursor(0,1);
+  lcd.print("Ywrobot Arduino!");
+   lcd.setCursor(0,2);
+  lcd.print("Arduino LCM IIC 2004");
+   lcd.setCursor(2,3);
+  lcd.print("Power By Ec-yuan!");
+}
+*/
