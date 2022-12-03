@@ -12,7 +12,7 @@ void setup()
   // Print a message to the LCD.
   lcd.backlight();
   lcd.setCursor(3,0);
-  lcd.write("HelloWorld");
+  lcd.print("HelloWorld");
   lcd.setCursor(2,1);
   lcd.print("HTL-Anichstraße");
    
