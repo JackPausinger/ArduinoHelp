@@ -1,0 +1,22 @@
+char com1 []= "neger";
+char com2 []= "zipfl";
+String type;
+
+void setup() {
+  pinMode(13, OUTPUT);
+  Serial.begin(9600);
+
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    type = Serial.readString();
+    type.trim();
+  }
+  if(type[0] == com1[0]){
+    digitalWrite(13, 1);
+  }
+  if(type[0] == com2[0]){
+    digitalWrite(13, 0);
+  }
+}
