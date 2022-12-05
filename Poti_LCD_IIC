@@ -1,0 +1,69 @@
+#include <Wire.h> 
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27,16,2);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+
+byte pfeilL [8]={
+  0b00000,
+  0b00000,
+  0b00100,
+  0b01111,
+  0b11111,
+  0b01111,
+  0b00100,
+  0b00000
+};
+
+byte pfeilR [8]={
+  0b00000,
+  0b00000,
+  0b00100,
+  0b11110,
+  0b11111,
+  0b11110,
+  0b00100,
+  0b00000
+};
+void setup()
+{
+  Serial.begin(9600);
+  lcd.init();                      // initialize the lcd 
+  // Print a message to the LCD.
+  lcd.backlight();
+  lcd.setCursor(3,0);
+  lcd.write("HelloWorld");
+  lcd.setCursor(2,1);
+  lcd.print("HTL-Anichstraße");
+  lcd.createChar(0,pfeilL);
+  lcd.createChar(1,pfeilR);
+   
+}
+
+void loop()
+{
+  lcd.clear();
+  int poti = analogRead(A0);
+  int pos = poti/64;
+
+  if(pos == 0){
+  lcd.setCursor(pos,0);
+  lcd.write(byte(0));
+  lcd.setCursor(2,1);
+  lcd.print(pos+1);
+  delay(200);
+  }
+  if(pos == 15){
+  lcd.setCursor(pos,0);
+  lcd.write(byte(1));
+  lcd.setCursor(2,1);
+  lcd.print(pos+1);
+  delay(200);
+  }
+  if((pos > 0) & (pos <15)){
+  lcd.setCursor(pos,0);
+  lcd.print("|");
+  lcd.setCursor(2,1);
+  lcd.print(pos+1);
+  delay(200);
+  }
+}
