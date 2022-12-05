@@ -30,10 +30,6 @@ void setup()
   lcd.init();                      // initialize the lcd 
   // Print a message to the LCD.
   lcd.backlight();
-  lcd.setCursor(3,0);
-  lcd.write("HelloWorld");
-  lcd.setCursor(2,1);
-  lcd.print("HTL-Anichstraße");
   lcd.createChar(0,pfeilL);
   lcd.createChar(1,pfeilR);
    
